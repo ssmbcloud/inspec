@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "omnibus", git: "https://github.com/chef/omnibus", branch: "master"
+gem "omnibus", git: "https://github.com/chef/omnibus", branch: "jsinha/rm_writable_dmg"
 gem "omnibus-software", git: "https://github.com/chef/omnibus-software", branch: "master"
 
 # This development group is installed by default when you run `bundle install`,
