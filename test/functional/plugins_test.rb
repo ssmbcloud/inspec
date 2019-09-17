@@ -1,12 +1,14 @@
 # Functional tests related to plugin facility
 require "functional/helper"
 
+describe "plugins" do
+  include FunctionalHelper
+  parallelize_me!
+
 #=========================================================================================#
 #                                Loader Errors
 #=========================================================================================#
 describe "plugin loader" do
-  include FunctionalHelper
-
   it "handles an unloadable plugin correctly" do
     outcome = inspec_with_env("version", INSPEC_CONFIG_DIR: File.join(config_dir_path, "plugin_error_on_load"))
 
@@ -32,8 +34,6 @@ end
 #                              Disabling Plugins
 #=========================================================================================#
 describe "when disabling plugins" do
-  include FunctionalHelper
-
   describe "when disabling the core plugins" do
     it "should not be able to use core-provided commands" do
       run_result = run_inspec_process("--disable-core-plugins habitat")
@@ -61,8 +61,6 @@ end
 #                           CliCommand plugin type
 #=========================================================================================#
 describe "cli command plugins" do
-  include FunctionalHelper
-
   it "is able to respond to a plugin-based cli subcommand" do
     outcome = inspec_with_env("meaningoflife answer", INSPEC_CONFIG_DIR: File.join(config_dir_path, "meaning_by_path"))
 
@@ -102,7 +100,6 @@ end
 #                             Input plugin type
 #=========================================================================================#
 describe "input plugins" do
-  include FunctionalHelper
   let(:env) { { INSPEC_CONFIG_DIR: "#{config_dir_path}/input_plugin" } }
   let(:profile) { "#{profile_path}/inputs/plugin" }
   def run_input_plugin_test_with_controls(controls)
@@ -152,8 +149,6 @@ end
 #                                Plugin Disable Messaging
 #=========================================================================================#
 describe "disable plugin usage message integration" do
-  include FunctionalHelper
-
   it "mentions the --disable-{user,core}-plugins options" do
     outcome = inspec("help")
     ["--disable-user-plugins", "--disable-core-plugins"].each do |option|
@@ -291,7 +286,6 @@ end
 
 describe "train plugin support" do
   describe "when a train plugin is installed" do
-    include FunctionalHelper
     it "can run inspec detect against a URL target" do
       outcome = inspec_with_env("detect -t test-fixture://", INSPEC_CONFIG_DIR: File.join(config_dir_path, "train-test-fixture"))
 
@@ -355,4 +349,6 @@ describe "train plugin support" do
       assert_exit_code 0, outcome
     end
   end
+end
+
 end
